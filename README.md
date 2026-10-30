@@ -3,6 +3,7 @@
 Abra `index.html` na raiz. Ele encaminha para `public/pages/index.html`.
 
 ## GitHub Pages
+
 1. Envie o **conteúdo** desta pasta para a raiz do repositório (o index.html deve ficar na raiz, não dentro de outra pasta).
 2. Em Settings → Pages, configure a publicação a partir da branch desejada, pasta `/ (root)`.
 3. Ative **Enforce HTTPS** quando disponível.
@@ -12,6 +13,7 @@ Os caminhos relativos também funcionam em `https://usuario.github.io/repositori
 Não use a visualização de arquivos do github.com como hospedagem.
 
 ## Personalização
+
 - `public/js/config.js`: marca, cores, contatos HTTPS, logo local e horários.
 - `public/js/produtos.js`: itens, preços, disponibilidade e variações.
 - `public/css/style.css`: aparência e regras responsivas.
