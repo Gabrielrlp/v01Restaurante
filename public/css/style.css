@@ -429,18 +429,74 @@ header {
   font-size: 10px;
   white-space: nowrap;
 }
+.catalog-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  margin-bottom: 15px;
+}
 .diet-filter {
   display: flex;
   align-items: center;
   gap: 9px;
   font-size: 12px;
   min-height: var(--toque);
-  margin-bottom: 15px;
 }
 .diet-filter input {
   width: 18px;
   height: 18px;
   accent-color: var(--accent);
+}
+.catalog-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sort {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+.sort select {
+  font: inherit;
+  min-width: 0;
+  min-height: var(--toque);
+  padding: 0 10px;
+  border: 1px solid var(--borda);
+  border-radius: 6px;
+  background: var(--branco);
+  color: var(--preto);
+}
+.view-toggle {
+  display: flex;
+  border: 1px solid var(--borda);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.view-toggle button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--toque);
+  min-width: var(--toque);
+  justify-content: center;
+  padding: 0 14px;
+  border: 0;
+  background: transparent;
+  font-size: 12px;
+  color: #555;
+}
+.view-toggle button[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--branco);
+}
+.view-toggle button:focus-visible,
+.sort select:focus-visible {
+  outline: 3px solid var(--foco);
+  outline-offset: 2px;
 }
 
 /* 8. Cards de produto ----------------------------------------------------- */
@@ -573,6 +629,29 @@ header {
   place-items: center;
   font-size: 17px;
 }
+/* Visualização em lista: foto à esquerda, texto à direita. */
+.products.is-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 18px;
+}
+.is-list .product {
+  flex-direction: row;
+}
+.is-list .product-photo {
+  width: 34%;
+  max-width: 180px;
+  min-height: 130px;
+  aspect-ratio: auto;
+  flex-shrink: 0;
+}
+.is-list .product p {
+  margin-bottom: 12px;
+}
+/* A altura do card vem do texto; a foto apenas preenche. */
+.is-list .product img {
+  position: absolute;
+  inset: 0;
+}
 
 /* 9. Avisos do catálogo --------------------------------------------------- */
 .service-note {
@@ -698,11 +777,43 @@ dialog::backdrop {
   grid-template-columns: 1fr 1fr;
   position: relative;
 }
+.modal-media {
+  position: relative;
+}
 .modal-photo {
+  display: block;
   width: 100%;
   height: 100%;
   min-height: 470px;
   max-height: 750px;
+  object-fit: cover;
+}
+.gallery-thumbs {
+  position: absolute;
+  left: 15px;
+  bottom: 15px;
+  display: flex;
+  gap: 8px;
+}
+.gallery-thumbs button {
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border: 2px solid var(--branco);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--linha);
+  box-shadow: 0 2px 12px #0002;
+  opacity: 0.7;
+}
+.gallery-thumbs button[aria-current="true"] {
+  opacity: 1;
+  box-shadow: 0 0 0 2px var(--preto);
+}
+.gallery-thumbs img {
+  display: block;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 .enlarge {
@@ -823,6 +934,22 @@ dialog::backdrop {
   width: 100%;
   max-height: 90dvh;
   object-fit: contain;
+}
+#zoom-dialog:has(.zoom-nav:not([hidden])) #zoom-image {
+  max-height: calc(90dvh - 70px);
+}
+.zoom-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 12px;
+  color: var(--branco);
+  font-size: 13px;
+}
+.zoom-nav .icon-button {
+  font-size: 26px;
+  line-height: 1;
 }
 
 /* Lista e informações (os dois usam .about-copy) */
@@ -1122,6 +1249,19 @@ dialog::backdrop {
   .results-heading span {
     font-size: 9px;
   }
+  .catalog-controls {
+    width: 100%;
+  }
+  .sort {
+    flex: 1;
+    min-width: 0;
+  }
+  .sort select {
+    flex: 1;
+  }
+  .view-toggle button {
+    padding: 0 12px;
+  }
 
   /* Cards */
   .products {
@@ -1165,6 +1305,14 @@ dialog::backdrop {
     height: 26px;
     font-size: 15px;
     flex-shrink: 0;
+  }
+  .products.is-list {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .is-list .product-photo {
+    width: 112px;
+    min-height: 120px;
   }
   .service-note {
     padding: 15px;
@@ -1261,6 +1409,18 @@ dialog::backdrop {
   }
   .choice-actions .primary {
     min-width: 170px;
+  }
+  /* Rótulos curtos somem da tela, mas continuam para leitores de tela. */
+  .compact-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+  .is-list .product-photo {
+    width: 92px;
   }
 }
 

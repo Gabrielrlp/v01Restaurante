@@ -57,20 +57,93 @@ function notify(text) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => box.classList.remove("visible"), 2500);
 }
+// Galeria: foto principal + p.galeria (texto ou { foto, descricao }).
+let gallery = [];
+let galleryIndex = 0;
+function productPhotos(p) {
+  const extras = Array.isArray(p.galeria) ? p.galeria : [];
+  const photos = [{ foto: p.foto }, ...extras]
+    .map((g) => (typeof g === "string" ? { foto: g } : g))
+    .filter((g) => g && g.foto);
+  return photos.map((g, i) => ({
+    src: productImage(g.foto),
+    alt:
+      (g.descricao ? String(g.descricao) : `Foto ilustrativa de ${p.nome}`) +
+      (photos.length > 1 ? ` (foto ${i + 1} de ${photos.length})` : ""),
+  }));
+}
+function showPhoto(index) {
+  galleryIndex = (index + gallery.length) % gallery.length;
+  const g = gallery[galleryIndex];
+  const photo = document.querySelector(".modal-photo");
+  photo.src = g.src;
+  photo.alt = g.alt;
+  document
+    .querySelectorAll(".gallery-thumbs button")
+    .forEach((b, i) => b.setAttribute("aria-current", i === galleryIndex));
+  const image = document.querySelector("#zoom-image");
+  image.src = g.src;
+  image.alt = `Ampliada: ${g.alt}`;
+  document.querySelector("#zoom-counter").textContent =
+    `Foto ${galleryIndex + 1} de ${gallery.length}`;
+}
+const zoomDialog = document.querySelector("#zoom-dialog");
+document
+  .querySelector("#zoom-prev")
+  .addEventListener("click", () => showPhoto(galleryIndex - 1));
+document
+  .querySelector("#zoom-next")
+  .addEventListener("click", () => showPhoto(galleryIndex + 1));
+zoomDialog.addEventListener("keydown", (e) => {
+  if (gallery.length < 2) return;
+  if (e.key === "ArrowLeft") showPhoto(galleryIndex - 1);
+  if (e.key === "ArrowRight") showPhoto(galleryIndex + 1);
+});
+// Deslizar o dedo na foto ampliada troca de foto.
+let touchX = null;
+zoomDialog.addEventListener(
+  "touchstart",
+  (e) => (touchX = e.touches.length === 1 ? e.touches[0].clientX : null),
+  { passive: true },
+);
+zoomDialog.addEventListener("touchend", (e) => {
+  if (touchX === null || gallery.length < 2) return;
+  const dx = e.changedTouches[0].clientX - touchX;
+  if (Math.abs(dx) > 50) showPhoto(galleryIndex + (dx < 0 ? 1 : -1));
+  touchX = null;
+});
 function prepareProduct(p) {
   const copy = document.querySelector(".modal-copy");
   const photo = document.querySelector(".modal-photo");
+  gallery = productPhotos(p);
   const zoom = document.createElement("button");
   zoom.id = "enlarge-photo";
   zoom.className = "enlarge";
   zoom.textContent = "⤢ Ampliar foto";
   zoom.addEventListener("click", () => {
-    const image = document.querySelector("#zoom-image");
-    image.src = photo.src;
-    image.alt = `Foto ilustrativa ampliada de ${p.nome}`;
-    document.querySelector("#zoom-dialog").showModal();
+    showPhoto(galleryIndex);
+    zoomDialog.querySelector(".zoom-nav").hidden = gallery.length < 2;
+    zoomDialog.showModal();
   });
   photo.after(zoom);
+  if (gallery.length > 1) {
+    const thumbs = document.createElement("div");
+    thumbs.className = "gallery-thumbs";
+    thumbs.setAttribute("role", "group");
+    thumbs.setAttribute("aria-label", `Fotos de ${p.nome}`);
+    gallery.forEach((g, i) => {
+      const b = document.createElement("button");
+      b.setAttribute("aria-label", `Ver foto ${i + 1} de ${gallery.length}`);
+      const img = document.createElement("img");
+      img.src = g.src;
+      img.alt = "";
+      b.append(img);
+      b.addEventListener("click", () => showPhoto(i));
+      thumbs.append(b);
+    });
+    zoom.after(thumbs);
+  }
+  showPhoto(0);
   const block = document.createElement("div");
   block.className = "choice-block";
   const options = p.variantes || [

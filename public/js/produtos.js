@@ -1,6 +1,7 @@
 // Edite os produtos aqui. Valores em reais. Fotos ilustrativas.
 const categorias = [
   "Todos",
+  "Destaques da casa",
   "Promoções",
   "Hambúrgueres",
   "Pizzas",
@@ -129,6 +130,7 @@ const produtos = [
 produtos.forEach((p) => {
   p.disponivel = true;
   p.vegetariano = false;
+  p.destaque = false;
 });
 produtos.find((p) => p.id === 2).variantes = [
   { id: "p", nome: "Pequena · 4 fatias", preco: 39.9 },
@@ -145,3 +147,14 @@ produtos.find((p) => p.id === 6).variantes = [
 ];
 produtos.find((p) => p.id === 5).vegetariano = true;
 produtos.find((p) => p.id === 4).disponivel = false;
+// Destaques da casa: aparecem no filtro "Destaques da casa". Escolha com o restaurante.
+produtos.find((p) => p.id === 1).destaque = true;
+produtos.find((p) => p.id === 2).destaque = true;
+// Galeria: fotos extras além de "foto" (nome do arquivo em assets/, sem .webp).
+// Aceita texto ou { foto, descricao } para descrever a foto a leitores de tela.
+produtos.find((p) => p.id === 7).galeria = [
+  { foto: "fries", descricao: "Porção de batatas que acompanha o combo" },
+];
+produtos.find((p) => p.id === 4).galeria = [
+  { foto: "fries", descricao: "Batatas servidas como acompanhamento" },
+];

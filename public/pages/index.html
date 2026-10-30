@@ -102,10 +102,35 @@
           <p id="result-title">Uma seleção para todos os gostos</p>
           <span id="result-count" aria-live="polite"></span>
         </div>
-        <label class="diet-filter"
-          ><input type="checkbox" id="vegetarian" /> Mostrar opções
-          vegetarianas</label
-        >
+        <div class="catalog-tools">
+          <label class="diet-filter"
+            ><input type="checkbox" id="vegetarian" /> Mostrar opções
+            vegetarianas</label
+          >
+          <div class="catalog-controls">
+            <label class="sort"
+              ><span class="compact-label">Ordenar</span>
+              <select id="sort">
+                <option value="casa">Sugestão da casa</option>
+                <option value="menor">Menor preço</option>
+                <option value="maior">Maior preço</option>
+              </select></label
+            >
+            <div
+              class="view-toggle"
+              role="group"
+              aria-label="Modo de visualização"
+            >
+              <button data-view="grade" aria-pressed="true">
+                <span aria-hidden="true">▦</span>
+                <span class="compact-label">Grade</span></button
+              ><button data-view="lista" aria-pressed="false">
+                <span aria-hidden="true">☰</span>
+                <span class="compact-label">Lista</span>
+              </button>
+            </div>
+          </div>
+        </div>
         <div id="products" class="products"></div>
         <div id="empty" hidden>
           <h3>Nenhum sabor por aqui.</h3>
@@ -198,6 +223,14 @@
       </button>
       <h2 id="zoom-title" class="sr-only">Foto ampliada do produto</h2>
       <img id="zoom-image" alt="" />
+      <div class="zoom-nav" hidden>
+        <button id="zoom-prev" class="icon-button" aria-label="Foto anterior">
+          ‹</button
+        ><span id="zoom-counter" aria-live="polite"></span
+        ><button id="zoom-next" class="icon-button" aria-label="Próxima foto">
+          ›
+        </button>
+      </div>
     </dialog>
     <noscript
       ><p>
