@@ -1,6 +1,6 @@
-NEX7STEP — PROTÓTIPO 2
-ABRIR: v01Restaurante/v01Restaurante/public/index.html após extrair o ZIP.
-Estrutura do ZIP enviado preservada. Não exige Node, banco ou conexão para consultar.
+NEX7STEP — PROTÓTIPO 3
+ABRIR: index.html na raiz após extrair o ZIP. Página principal: public/pages/index.html.
+Estrutura reorganizada para GitHub Pages. Não exige Node, banco ou conexão para consultar.
 
 PERSONALIZAR
 js/config.js: nome, logo, cores, endereço, horários, contatos e URLs.
@@ -12,13 +12,13 @@ js/app.js: busca e modal. js/melhorias.js: configuração, lista, tamanhos e amp
 
 LISTA PARA O GARÇOM
 Abra um produto, escolha tamanho e quantidade e guarde na lista.
-A lista fica neste navegador quando o armazenamento local está disponível.
+A lista fica neste navegador por até 24 horas quando o armazenamento local está disponível.
 Sem armazenamento, funciona só durante a sessão. Não envia, reserva ou cobra pedidos.
 Estimativa exclui itens indisponíveis e taxas; confirme com o garçom.
 
 PUBLICAÇÃO E QR
 O pacote não configura domínio nem hospedagem.
-Publique o conteúdo de public numa hospedagem estática com HTTPS.
+Publique o conteúdo completo da pasta nex7step, incluindo o index.html da raiz.
 Preencha siteUrl em config.js com a URL definitiva e gere um QR para esse endereço.
 O arquivo assets/qr-exemplo.svg, quando incluído, aponta para https://example.com/cardapio.
 É SOMENTE UMA AMOSTRA. Não imprimir para clientes.
