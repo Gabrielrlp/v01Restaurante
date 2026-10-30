@@ -16,8 +16,16 @@ Não use a visualização de arquivos do github.com como hospedagem.
 
 - `public/js/config.js`: marca, cores, contatos HTTPS, logo local e horários.
 - `public/js/produtos.js`: itens, preços, disponibilidade e variações.
+  - `destaque: true` coloca o produto no filtro “Destaques da casa”.
+  - `galeria: ["fries", { foto: "salad", descricao: "..." }]` adiciona fotos extras (arquivos `.webp` em `public/assets/`).
 - `public/css/style.css`: aparência e regras responsivas.
 - `REVISAO.md`: correções, limites de segurança e melhorias sugeridas.
+
+## Antes de publicar
+
+1. Rode `node ferramentas/validar-cardapio.js` (precisa do Node.js). Ele confere IDs, preços, categorias, fotos, variações e links.
+2. No GitHub, o workflow **Validar cardápio** roda o mesmo teste a cada envio; um ✗ vermelho no commit indica erro no cadastro.
+3. Siga `TESTES-CELULAR.md` em um iPhone e um Android reais.
 
 O crédito de desenvolvimento nex7step permanece no rodapé.
 Não há backend, envio de pedidos ou cobrança. A lista expira em 24h e pode ser apagada pelo cliente.
