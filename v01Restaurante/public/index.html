@@ -49,8 +49,8 @@
             Em cada <em>escolha.</em>
           </h1>
           <p>
-            Dos clássicos aos seus novos favoritos.<br /> Encontre o sabor que
-            combina com hoje.
+            Dos clássicos aos seus novos favoritos.<br />
+            Encontre o sabor que combina com hoje.
           </p>
           <a class="primary" href="#cardapio"
             >Explore o cardápio <span>↗</span></a
@@ -96,7 +96,10 @@
           <p id="result-title">Uma seleção para todos os gostos</p>
           <span id="result-count" aria-live="polite"></span>
         </div>
-        <label class="diet-filter"><input type="checkbox" id="vegetarian"> Mostrar opções vegetarianas</label>
+        <label class="diet-filter"
+          ><input type="checkbox" id="vegetarian" /> Mostrar opções
+          vegetarianas</label
+        >
         <div id="products" class="products"></div>
         <div id="empty" hidden>
           <h3>Nenhum sabor por aqui.</h3>
@@ -161,10 +164,35 @@
         </p>
       </div>
     </dialog>
-    <button id="open-list" class="list-fab" aria-label="Abrir minha lista">♡ Minha lista <span id="list-count">0</span></button>
+    <button id="open-list" class="list-fab" aria-label="Abrir minha lista">
+      ♡ Minha lista <span id="list-count">0</span>
+    </button>
     <div id="announcement" class="toast" role="status" aria-live="polite"></div>
-    <dialog id="list-dialog" aria-labelledby="list-title"><button class="close icon-button" aria-label="Fechar lista">×</button><div class="about-copy"><span class="eyebrow">SUAS ESCOLHAS</span><h2 id="list-title">Para pedir ao garçom</h2><p>Esta lista não envia pedidos. Mostre suas escolhas ao garçom para confirmar.</p><div id="list-items"></div><p id="list-total"></p><button id="clear-list" class="secondary">Limpar lista</button><p class="fineprint">Valores estimados, sem taxa de serviço. Disponibilidade e preços devem ser confirmados com a equipe.</p></div></dialog>
-    <dialog id="zoom-dialog" aria-labelledby="zoom-title"><button class="close icon-button" aria-label="Fechar foto ampliada">×</button><h2 id="zoom-title" class="sr-only">Foto ampliada do produto</h2><img id="zoom-image" alt=""></dialog>
+    <dialog id="list-dialog" aria-labelledby="list-title">
+      <button class="close icon-button" aria-label="Fechar lista">×</button>
+      <div class="about-copy">
+        <span class="eyebrow">SUAS ESCOLHAS</span>
+        <h2 id="list-title">Para pedir ao garçom</h2>
+        <p>
+          Esta lista não envia pedidos. Mostre suas escolhas ao garçom para
+          confirmar.
+        </p>
+        <div id="list-items"></div>
+        <p id="list-total"></p>
+        <button id="clear-list" class="secondary">Limpar lista</button>
+        <p class="fineprint">
+          Valores estimados, sem taxa de serviço. Disponibilidade e preços devem
+          ser confirmados com a equipe.
+        </p>
+      </div>
+    </dialog>
+    <dialog id="zoom-dialog" aria-labelledby="zoom-title">
+      <button class="close icon-button" aria-label="Fechar foto ampliada">
+        ×
+      </button>
+      <h2 id="zoom-title" class="sr-only">Foto ampliada do produto</h2>
+      <img id="zoom-image" alt="" />
+    </dialog>
     <noscript
       ><p>
         Ative o JavaScript para visualizar os produtos e seus detalhes.
