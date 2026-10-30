@@ -10,7 +10,7 @@ Anote para cada item: ✅ ok · ⚠️ funciona com dificuldade · ❌ não func
 | # | Passo | Esperado |
 |---|---|---|
 | 1 | Escanear o QR com a câmera nativa | Abre o cardápio em HTTPS (cadeado), sem passar por outro domínio |
-| 2 | Rolar até o fim | Nada cortado na lateral; botão “Minha lista” não cobre preço nem botão |
+| 2 | Rolar até o fim e tentar arrastar além | Rodapé é a última coisa, sem faixa clara abaixo; nada cortado na lateral; botão “Minha lista” fica branco sobre o rodapé e não cobre texto |
 | 3 | Buscar “batata” e depois “BATATA” | Mesmo resultado; acentos ignorados (“limao” acha “Limão”) |
 | 4 | Tocar em cada categoria, inclusive “Destaques da casa” | Lista muda e o contador “N opções” acompanha |
 | 5 | Ordenar por menor e maior preço | Ordem correta; produtos com tamanhos usam o “A partir de” |
@@ -21,6 +21,7 @@ Anote para cada item: ✅ ok · ⚠️ funciona com dificuldade · ❌ não func
 | 10 | Abrir a lista, mudar quantidades, remover, limpar | Total recalcula; nada some sem ação do usuário |
 | 11 | Modo avião após abrir o site | Lista continua visível (não precisa de internet) |
 | 12 | Celular na horizontal | Layout continua usável |
+| 12b | Olhar todas as setas ↗ (logo, botão do topo, legenda da foto, cards, rodapé) | Setas finas pretas ou brancas, nunca emoji azul |
 
 ## 2. Ampliação de texto e zoom
 

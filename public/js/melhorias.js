@@ -227,6 +227,22 @@ function updateList() {
   document.querySelector("#clear-list").hidden = !choices.length;
 }
 document.querySelector("#vegetarian").addEventListener("change", render);
+// Inverte as cores do botão "Minha lista" quando ele passa sobre o rodapé.
+const listFab = document.querySelector("#open-list");
+const footer = document.querySelector("footer");
+let fabFrame = 0;
+function updateFab() {
+  fabFrame = 0;
+  const fab = listFab.getBoundingClientRect();
+  listFab.classList.toggle(
+    "sobre-rodape",
+    footer.getBoundingClientRect().top < fab.top + fab.height / 2,
+  );
+}
+const scheduleFab = () => (fabFrame ||= requestAnimationFrame(updateFab));
+addEventListener("scroll", scheduleFab, { passive: true });
+addEventListener("resize", scheduleFab);
+updateFab();
 document.querySelector("#open-list").addEventListener("click", () => {
   updateList();
   openDialog(document.querySelector("#list-dialog"));
@@ -245,6 +261,13 @@ function safeLink(url) {
   } catch {
     return null;
   }
+}
+// Seta ↗ em SVG (ver .seta no CSS); o caractere vira emoji em celulares.
+function arrowIcon() {
+  const seta = document.createElement("span");
+  seta.className = "seta";
+  seta.setAttribute("aria-hidden", "true");
+  return seta;
 }
 function contact(label, url) {
   const a = document.createElement(safeLink(url) ? "a" : "span");
@@ -316,22 +339,21 @@ function configure() {
     contact(restaurante.whatsapp, restaurante.whatsappUrl),
   );
   if (safeLink(restaurante.mapaUrl)) {
-    c.append(
-      document.createElement("br"),
-      contact("Ver no mapa ↗", restaurante.mapaUrl),
-    );
+    const mapa = contact("Ver no mapa ", restaurante.mapaUrl);
+    mapa.append(arrowIcon());
+    c.append(document.createElement("br"), mapa);
   }
   document.querySelector("#about").textContent = "Horários e informações";
   const info = document.createElement("button");
   info.className = "restaurant-info";
-  info.textContent = "Horários e informações ↗";
+  info.append("Horários e informações ", arrowIcon());
   info.addEventListener("click", () =>
     openDialog(document.querySelector("#about-dialog")),
   );
   document.querySelector(".hero-copy").append(info);
   const footerLink = document.createElement("button");
   footerLink.className = "footer-info";
-  footerLink.textContent = "Ver horários e informações ↗";
+  footerLink.append("Ver horários e informações ", arrowIcon());
   footerLink.addEventListener("click", () =>
     openDialog(document.querySelector("#about-dialog")),
   );

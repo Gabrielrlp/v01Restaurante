@@ -38,6 +38,10 @@
   --gutter: 6%;
   --largura-max: 1400px;
   --toque: 44px; /* área mínima de toque */
+
+  /* Seta ↗: traço fino para texto normal, forte para texto em negrito. */
+  --seta-fina: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%23000' stroke-width='1.4'%3E%3Cpath d='M1.5 10.5 10.5 1.5M3 1.5h7.5V9'/%3E%3C/svg%3E");
+  --seta-forte: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%23000' stroke-width='2'%3E%3Cpath d='M1.5 10.5 10.5 1.5M3 1.5h7.5V9'/%3E%3C/svg%3E");
 }
 
 /* 2. Base ----------------------------------------------------------------- */
@@ -47,10 +51,10 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 100px;
+  overscroll-behavior-y: none; /* sem "puxar" além do rodapé */
 }
 body {
   margin: 0;
-  padding-bottom: 80px; /* espaço para o botão “Minha lista” */
   background: var(--page-bg);
   color: var(--ink);
   font-family: Arial, Helvetica, sans-serif;
@@ -92,6 +96,23 @@ h2 span {
 }
 
 /* 3. Utilitários ---------------------------------------------------------- */
+/* Seta ↗ desenhada em SVG e pintada com a cor do texto (currentColor).
+   O caractere ↗ vira emoji azul em vários celulares. */
+.seta {
+  display: inline-block;
+  width: 0.62em;
+  height: 0.62em;
+  vertical-align: -0.02em;
+  background-color: currentColor;
+  -webkit-mask: var(--seta-fina) center / contain no-repeat;
+  mask: var(--seta-fina) center / contain no-repeat;
+}
+.logo .seta,
+.primary .seta,
+strong .seta {
+  -webkit-mask-image: var(--seta-forte);
+  mask-image: var(--seta-forte);
+}
 [hidden] {
   display: none !important;
 }
@@ -162,10 +183,11 @@ header {
   border-radius: 12px;
   letter-spacing: -3px;
 }
-.logo span {
+.logo .seta {
   font-size: 20px;
-  margin-top: -13px;
-  margin-left: 3px;
+  width: 0.62em;
+  height: 0.62em;
+  margin: -0.62em 0 0 2px;
 }
 .custom-logo {
   width: 46px;
@@ -283,8 +305,9 @@ header {
   justify-content: space-between;
   align-items: center;
 }
-.photo-label span {
+.photo-label .seta {
   font-size: 25px;
+  margin: 0.29em 0;
 }
 .hero-number {
   grid-column: 1/-1;
@@ -317,8 +340,9 @@ header {
   font-size: 13px;
   font-weight: 600;
 }
-.primary span {
+.primary .seta {
   font-size: 20px;
+  margin: 0.29em 0; /* mantém a altura de linha que a seta em texto tinha */
 }
 .primary:disabled {
   background: #e3e1db;
@@ -663,8 +687,10 @@ header {
   align-items: center;
   gap: 16px;
 }
-.service-note > span {
+.service-note > .seta {
   font-size: 25px;
+  margin: 0.29em 0;
+  flex-shrink: 0;
 }
 .service-note p {
   font-size: 12px;
@@ -736,7 +762,8 @@ header {
   background: var(--grafite);
   border-top: 1px solid #363636;
   color: #aaa;
-  padding: 20px var(--gutter);
+  /* Espaço inferior para o botão “Minha lista” não cobrir o texto. */
+  padding: 20px var(--gutter) 84px;
   display: flex;
   justify-content: space-between;
   font-size: 10px;
@@ -1066,6 +1093,20 @@ dialog::backdrop {
   border-radius: 30px;
   margin-left: 12px;
 }
+/* Sobre o rodapé escuro, o botão se inverte como o logo do rodapé. */
+.list-fab {
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+.list-fab.sobre-rodape {
+  background: var(--branco);
+  color: var(--grafite);
+}
+.list-fab.sobre-rodape span {
+  background: var(--grafite);
+  color: var(--branco);
+}
 .toast {
   position: fixed;
   bottom: 85px;
@@ -1147,9 +1188,13 @@ dialog::backdrop {
     width: 40px;
     height: 40px;
     border-radius: 10px;
+    font-size: 21px;
+  }
+  .logo .seta {
+    font-size: 17px;
   }
   .brand small {
-    font-size: 6px;
+    font-size: 7px;
     letter-spacing: 1.8px;
   }
   .demo {
@@ -1159,13 +1204,12 @@ dialog::backdrop {
     top: 65px;
   }
 
-  /* Hero compacto: texto + foto pequena ao lado */
+  /* Hero: mesma composição do desktop, empilhada (texto, depois foto) */
   .hero {
-    grid-template-columns: 1fr 105px;
-    gap: 12px;
-    padding-top: 22px;
-    padding-bottom: 16px;
-    align-items: center;
+    grid-template-columns: 1fr;
+    gap: 22px;
+    padding-top: 28px;
+    padding-bottom: 8px;
   }
   .hero-copy {
     padding: 0;
@@ -1174,43 +1218,47 @@ dialog::backdrop {
     font-size: 8px;
     letter-spacing: 1.8px;
   }
-  .hero .eyebrow {
-    font-size: 7px;
-    letter-spacing: 1px;
+  .hero .eyebrow,
+  .hero-note,
+  .hero-number {
+    display: none;
   }
   .hero h1 {
-    font-size: 30px;
-    letter-spacing: -1px;
-    line-height: 1.12;
-    margin: 10px 0;
-  }
-  .hero h1 br,
-  .hero p br {
-    display: none;
+    font-size: 44px;
+    letter-spacing: -2px;
+    line-height: 1.02;
+    margin: 0 0 16px;
   }
   .hero p {
-    font-size: 11px;
-    line-height: 1.65;
-    margin: 0 0 10px;
-    max-width: 280px;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0 0 22px;
   }
-  .hero .primary,
-  .hero-note,
-  .hero-number,
-  .photo-label {
-    display: none;
-  }
-  .hero-photo {
-    height: 155px;
-    border-radius: 9px;
-  }
-  .hero-photo img {
-    object-position: 48% 50%;
+  .hero .primary {
+    padding: 15px 20px;
+    gap: 28px;
   }
   .restaurant-info {
-    font-size: 10px;
-    margin: 0;
-    padding: 6px 0;
+    display: block;
+    font-size: 12px;
+    margin: 10px 0 0;
+    padding: 8px 0;
+  }
+  .hero-photo {
+    height: 220px;
+    border-radius: 12px;
+  }
+  .hero-photo img {
+    object-position: 50% 55%;
+  }
+  .photo-label {
+    bottom: 18px;
+    left: 20px;
+    right: 20px;
+    font-size: 9px;
+  }
+  .photo-label .seta {
+    font-size: 20px;
   }
 
   /* Catálogo */
@@ -1389,14 +1437,14 @@ dialog::backdrop {
 
 /* Celulares muito estreitos */
 @media (max-width: 350px) {
-  .hero {
-    grid-template-columns: 1fr 85px;
-  }
   .hero h1 {
-    font-size: 26px;
+    font-size: 37px;
+  }
+  .hero p br {
+    display: none;
   }
   .hero-photo {
-    height: 140px;
+    height: 190px;
   }
   .products {
     gap: 9px;
